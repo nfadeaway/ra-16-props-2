@@ -1,40 +1,8 @@
 import {ReactElement} from "react";
+import { VerifedItem } from "../App.tsx";
 
 
-const Listing = (items: object = {items: []}): ReactElement => {
-    type VerifedItem = {
-        listing_id: number,
-        url: string,
-        MainImage: {
-            url_570xN: string,
-        }
-        title: string,
-        currency_code: string,
-        price: string,
-        quantity: number
-    };
-
-    const verifedItems: VerifedItem[] = [];
-
-    if (items.items && items.items.length > 0) {
-        items.items.forEach((item: Object): void => {
-            if (item.state === "active") {
-                verifedItems.push(
-                    {
-                        listing_id: item.listing_id,
-                        url: item.url,
-                        MainImage: {
-                            url_570xN: item.MainImage.url_570xN,
-                        },
-                        title: item.title,
-                        currency_code: item.currency_code,
-                        price: item.price,
-                        quantity: item.quantity,
-                    }
-                )
-            }
-        });
-    }
+const Listing = (items: {items: VerifedItem[]}): ReactElement => {
 
     const renderItem = (item: VerifedItem): ReactElement => {
         const getPrice = (currencyCode: string, itemPrice: string): string => {
@@ -65,13 +33,13 @@ const Listing = (items: object = {items: []}): ReactElement => {
         )
     }
 
-    if (verifedItems.length === 0) {
+    if (items.items.length === 0) {
         return <></>
     }
 
     return (
         <div className="item-list">
-            {verifedItems.map((verifedItem: VerifedItem) => renderItem(verifedItem))}
+            {items.items.map((verifedItem: VerifedItem) => renderItem(verifedItem))}
         </div>
     );
 };
